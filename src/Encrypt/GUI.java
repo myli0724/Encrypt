@@ -110,7 +110,7 @@ public class GUI extends JFrame {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        JOptionPane.showMessageDialog(null, "网络编程作业二\n一个转换十进制小数的GUI程序，\n整数部分和小数部分分别逆序转换，\n支持正负数，采用了Java的swing来创建交互界面;\n关于：网络201张进华\nemail:2006200014@e.gzhu.edu.cn\nGithub:\nhttps://github.com/myli0724/Reverse");
+                        JOptionPane.showMessageDialog(null, "网络编程作业二\n可以对数据进行加解密，采用了Java的swing来创建交互界面;\n关于：网络201张进华\nemail:2006200014@e.gzhu.edu.cn\nGithub:\nhttps://github.com/myli0724/Reverse");
                     }
                 }
         );
