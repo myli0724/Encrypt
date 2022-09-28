@@ -72,7 +72,7 @@ public class encryptor {
         }
     }
 
-    public static void decryptor(String fileUrl,int key) throws IOException {
+    public static String decryptor(String fileUrl,int key) throws IOException {
         File file = new File(fileUrl);
         String path = file.getPath();
 
@@ -101,5 +101,6 @@ public class encryptor {
         inputStream.close();
         outputStream.flush();
         outputStream.close();
+        return desPath;
     }
 }

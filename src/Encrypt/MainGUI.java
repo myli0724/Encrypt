@@ -11,12 +11,12 @@ public class MainGUI extends JFrame {
         new MainGUI();
     }
 
-    private String msg = "\n使用说明:\n1,先点击选择文件按钮选中文件，或者手动输入文件所在绝对路径；" +
-            "\n2,输入加密密码，需要为纯数字，且不要溢出；" +
+    private String msg = "\n使用说明:\n1,先点击选择文件按钮,在弹出窗口中找到并且选中文件,或者手动输入文件所在绝对路径;" +
+            "\n2,输入密码，需要为纯数字，且不要溢出;" +
             "\n3,可以自行勾选“备份原文件”，若选择备份，会在选择文件同目录下生成.backup格式的备份文件,去掉后缀即可恢复，" +
-            "\n    否则会被加密后的文件替代；" +
-            "\n4,点击加密即可对文件进行加密，会在选中文件同目录下生成.data格式的加密文件；" +
-            "\n    选择.data格式加密文件输入正确密码，点击解密即可以解密,密码错误会导致解密结果乱码;";
+            "\n    否则会被加密后的文件替代;" +
+            "\n4,点击加密即可对文件进行加密，会在选中的文件同目录下生成.data格式的加密文件;" +
+            "\n    选择.data格式的加密文件输入正确密码，点击解密即可以解密,若密码错误会导致解密结果乱码;";
 
     private Container container = getContentPane();
     private JLabel fileurlLable = new JLabel("请选择文件或者手动输入文件路径:");
@@ -81,12 +81,17 @@ public class MainGUI extends JFrame {
                 jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 jfc.showDialog(new JLabel(),"选择");
                 File file = jfc.getSelectedFile();
-                if(file.isDirectory()){
-                    JOptionPane.showMessageDialog(null,"不能选择文件夹!");
-                }else if(file.isFile()){
-                    fileurl.setText(file.getAbsolutePath());
+                try {
+                    if (file.isDirectory()) {
+                        JOptionPane.showMessageDialog(null, "不能选择文件夹!");
+                        result.setText("未能选中文件，请重试");
+                    } else if (file.isFile()) {
+                        fileurl.setText(file.getAbsolutePath());
+                        result.setText("已选择：" + jfc.getSelectedFile().getName());
+                    }
+                }catch (Exception e1){
+                    JOptionPane.showMessageDialog(null,"未选择文件");
                 }
-                result.setText("已选择："+jfc.getSelectedFile().getName());
             }
         });
 
@@ -108,7 +113,7 @@ public class MainGUI extends JFrame {
                     int key = Integer.parseInt(pwd.getText());
                     try {
                         //  Block of code to try
-                        result.setText("已经对选中文件加密，加密文件路径为选中文件同目录下："+encryptor.encrypt(input, key));
+                        result.setText("已经对选中文件加密，加密文件路径为选中的文件同目录下："+encryptor.encrypt(input, key));
                         if(backup==false){
                             encryptor.delete(input);
                         }
@@ -133,8 +138,7 @@ public class MainGUI extends JFrame {
                     int key = Integer.parseInt(pwd.getText());
                     try {
                         //  Block of code to try
-                        encryptor.decryptor(input,key);
-                        result.setText("已经对选中文件解密，解密文件路径为选中文件同目录下：");
+                        result.setText("已经对选中文件解密，解密文件路径为选中的文件同目录下："+encryptor.decryptor(input,key));
                         if(backup==false){
                             encryptor.delete(input);
                         }
